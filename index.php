@@ -60,17 +60,18 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])){
         }
     }
     ?>
+    <!-- Update form -->
     <form action="" method="post">
         <input type="hidden" name="id" value=<?=$person['id']?>>
         <label for="name">Name</label>
         <input type="text" name="name" value=<?=$person['name']?>>
         <label for="age">Age</label>
         <input type="number" name="age" step="1" value=<?=$person['age']?>>
-        <input type="submit" value="Add">
+        <input type="submit" value="Update">
     </form>
 
 <?php }else{ ?>
-
+    <!-- Create form -->
     <form action="" method="post">
         <label for="name">Name</label>
         <input type="text" name="name">
@@ -96,6 +97,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])){
         </a>    
     </td>
     <td>
+        <!-- Delete form -->
         <form action="" method="post">
             <input type="hidden" name="id" value=<?=$person['id']?>>
             <button type="submit" name="delete">Delete</button>

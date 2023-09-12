@@ -1,44 +1,21 @@
 <?php
-session_start();
 
-if(!isset($_SESSION['list'])){
-    $_SESSION['list'] = [];
-    $_SESSION['id'] = 1;
-}
+include("./functions.php");
+init();
 
-// Create
+// Store
 if(isset($_POST['name']) && !isset($_POST['id'])){
-    $person = [];
-    $person['id'] = $_SESSION['id'];
-    $person['name'] = $_POST['name'];
-    $person['age'] = $_POST['age'];
-    array_push($_SESSION['list'], $person);
-    $_SESSION['id']++;
-    header('location:./');
-    die;
+    store();
 }
 
 // Update
 if(isset($_POST['name']) && isset($_POST['id'])){
-    foreach($_SESSION['list'] as $key => &$person){
-        if($person['id'] == $_POST['id']){
-            $_SESSION['list'][$key]['name'] = $_POST['name'];
-            $_SESSION['list'][$key]['age'] = $_POST['age'];
-            header('location:./');
-            die;
-        }
-    }
+    update();
 }
-
+ 
 // Delete
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])){
-    foreach($_SESSION['list'] as $key => &$person){
-        if($person['id'] == $_POST['id']){
-            unset($_SESSION['list'][$key]);
-            header('location:./');
-            die;
-        }
-    }
+    destroy();
 }
 ?>
 
@@ -52,14 +29,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])){
 <body>
 <?php
 if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])){ 
-    $person = [];
-    foreach($_SESSION['list'] as $key => $entry){
-        if($entry['id'] == $_GET['id']){
-            $person = $entry;
-            break;
-        }
-    }
-    ?>
+    $person = find();
+?>
     <!-- Update form -->
     <form action="" method="post">
         <input type="hidden" name="id" value=<?=$person['id']?>>
@@ -71,6 +42,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])){
     </form>
 
 <?php }else{ ?>
+
     <!-- Create form -->
     <form action="" method="post">
         <label for="name">Name</label>
